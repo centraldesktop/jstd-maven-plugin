@@ -8,12 +8,6 @@
     <packaging>maven-plugin</packaging>
     <url>http://code.google.com/jstd-maven-plugin</url>
 
-    <parent>
-        <groupId>org.sonatype.oss</groupId>
-        <artifactId>oss-parent</artifactId>
-        <version>7</version>
-    </parent>
-
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
@@ -23,9 +17,9 @@
     </licenses>
 
     <scm>
-        <url>https://code.google.com/p/jstd-maven-plugin/</url>
-        <connection>scm:git:https://code.google.com/p/jstd-maven-plugin/</connection>
-        <developerConnection>scm:git:https://code.google.com/p/jstd-maven-plugin/</developerConnection>
+        <url>https://github.com/centraldesktop/jstd-maven-plugin</url>
+        <connection>scm:git:git://github.com/centraldesktop/jstd-maven-plugin.git</connection>
+        <developerConnection>scm:git:git@github.com:centraldesktop/jstd-maven-plugin.git</developerConnection>
     </scm>
     
     <developers>
