@@ -17,7 +17,8 @@ import java.util.List;
  * @goal test
  * @phase test
  */
-public class JsTestDriverMojo extends AbstractMojo {
+public
+class JsTestDriverMojo extends AbstractMojo {
     /**
      * Mojo Options
      */
@@ -64,7 +65,6 @@ public class JsTestDriverMojo extends AbstractMojo {
      */
     private boolean defaultBasePath;
 
-    
 
     /**
      * JsTD Options:
@@ -156,21 +156,39 @@ public class JsTestDriverMojo extends AbstractMojo {
      */
     private boolean verbose;
 
+    /**
+     * @parameter expression="${jstd.failOnError}" default-value=true
+     *
+        * @TODO This should be using maven.test.error.ignore instead
+
+     */
+    private boolean failOnError;
+
+    /**
+     * @parameter expression="${jstd.failOnFailure}" default-value=true
+     *
+     * @TODO This should be using maven.test.haltafterfailure instead
+     */
+    private boolean failOnFailure;
+
 
     // internals
     private ProcessExecutor processExecutor;
     private ResultsProcessor resultsProcessor;
 
-    public JsTestDriverMojo() {
+    public
+    JsTestDriverMojo() {
         this(new StreamingProcessExecutor(), new ResultsProcessor());
     }
 
-    public JsTestDriverMojo(ProcessExecutor processExecutor, ResultsProcessor resultsProcessor) {
+    public
+    JsTestDriverMojo(ProcessExecutor processExecutor, ResultsProcessor resultsProcessor) {
         this.processExecutor = processExecutor;
         this.resultsProcessor = resultsProcessor;
     }
 
-    public void execute() throws MojoExecutionException {
+    public
+    void execute() throws MojoExecutionException {
         MojoLogger.bindLog(getLog());
 
         if (skipTests) {
@@ -183,11 +201,15 @@ public class JsTestDriverMojo extends AbstractMojo {
         ProcessConfiguration config = buildProcessConfiguration();
         logProcessArguments(config);
 
+        resultsProcessor.failOnError = failOnError;
+        resultsProcessor.failOnFailure = failOnFailure;
+
         resultsProcessor.processResults(processExecutor.execute(config));
     }
 
-    private ProcessConfiguration buildProcessConfiguration()
-            throws MojoExecutionException {
+    private
+    ProcessConfiguration buildProcessConfiguration()
+    throws MojoExecutionException {
         ProcessConfiguration configuration;
         if (StringUtils.isNotEmpty(jar)) {
             configuration = buildLocalJarProcessConfig();
@@ -200,7 +222,8 @@ public class JsTestDriverMojo extends AbstractMojo {
         return configuration;
     }
 
-    private ProcessConfiguration buildMavenJarProcessConfig() throws MojoExecutionException {
+    private
+    ProcessConfiguration buildMavenJarProcessConfig() throws MojoExecutionException {
         Artifact artifact = new ArtifactLocator(mavenProject).findArtifact(groupId, artifactId);
         JarProcessConfiguration jarConfig = new JarProcessConfiguration(artifact.getFile().getAbsolutePath());
         addClasspathArguments(jarConfig);
@@ -210,7 +233,8 @@ public class JsTestDriverMojo extends AbstractMojo {
         return jarConfig;
     }
 
-    private ProcessConfiguration buildLocalJarProcessConfig() throws MojoExecutionException {
+    private
+    ProcessConfiguration buildLocalJarProcessConfig() throws MojoExecutionException {
         JarProcessConfiguration processConfiguration = new JarProcessConfiguration(jar);
         if (StringUtils.isNotEmpty(jvmOpts)) {
             processConfiguration.addExecutableOptions(jvmOpts);
@@ -218,7 +242,8 @@ public class JsTestDriverMojo extends AbstractMojo {
         return processConfiguration;
     }
 
-    private void addClasspathArguments(JarProcessConfiguration jarConfig) {
+    private
+    void addClasspathArguments(JarProcessConfiguration jarConfig) {
         List<String> classpathArgs = new ArrayList<String>();
         for (Artifact artifact : dependencies) {
             classpathArgs.add(artifact.getFile().getAbsolutePath());
@@ -227,9 +252,10 @@ public class JsTestDriverMojo extends AbstractMojo {
         jarConfig.addClasspath(StringUtils.join(classpathArgs, ";"));
     }
 
-    private void buildArguments(JarProcessConfiguration testRunner)
-            throws MojoExecutionException {
-        String defaultedBasePath = StringUtils.defaultIfEmpty(basePath, mavenProject.getBasedir().getAbsolutePath()); 
+    private
+    void buildArguments(JarProcessConfiguration testRunner)
+    throws MojoExecutionException {
+        String defaultedBasePath = StringUtils.defaultIfEmpty(basePath, mavenProject.getBasedir().getAbsolutePath());
         if (config != null) {
             File configFile = new File(config);
             if (!configFile.isAbsolute()) {
@@ -293,13 +319,15 @@ public class JsTestDriverMojo extends AbstractMojo {
         }
     }
 
-    private void logProcessArguments(ProcessConfiguration processConfiguration) {
+    private
+    void logProcessArguments(ProcessConfiguration processConfiguration) {
         if (verbose) {
             System.out.println(String.format("Running: %s", StringUtils.join(processConfiguration.getFullCommand(), " ")));
         }
     }
 
-    private void printBanner() {
+    private
+    void printBanner() {
         System.out.println("\n" +
                 "-------------------------------------------\n" +
                 " J S  T E S T  D R I V E R                 \n" +

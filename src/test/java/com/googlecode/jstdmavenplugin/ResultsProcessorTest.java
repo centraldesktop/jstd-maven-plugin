@@ -23,7 +23,7 @@ public class ResultsProcessorTest
             fail("Should not have thrown an exception : " + e.getMessage());
         }
     }
-
+/*
     public void testAtLeastOneErrorShouldThrowException()
     {
         String output = buildOutputString(1, 0, 1);
@@ -49,7 +49,7 @@ public class ResultsProcessorTest
         {
         }
     }
-
+*/
     public void testShouldThrowErrorWhenNoBrowsersCaptured()
     {
         String output = "No browsers were captured";
